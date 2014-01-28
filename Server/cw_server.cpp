@@ -10,14 +10,18 @@
 #include "cw_log.h"
 #include "cw_serveriniset.h"
 #include "cw_tableset.h"
-
+#include "cw_scriptinterface.h"
 
 bool Init()
 {
+	
+	
 	new CTimeManager;
 	new CLogManager;
 	new CServerIniSet;
 	new CTableSet;
+
+	new CScriptInterface;
 
 	new CPacketFactoryManager;
 	new CPacketHandlerSet;
@@ -26,6 +30,23 @@ bool Init()
 
 	CTimeManager::GetSingleton().Init();
 	CLogManager::GetSingleton().Init();	
+
+	if (!SCRIPTMANAGER.Init())
+	{
+		LOG_DEBUG("Lua Init Failed!");
+		return 0;
+	}
+	/*if (!CLuaInterface::GetSingleton().Load("./Lua/test.lua"))
+	{
+	LOG_DEBUG("Lua Script Load Failed!");
+	return 0;
+	}
+	if (!CLuaInterface::GetSingleton().Load("./Lua/test1.lua"))
+	{
+	LOG_DEBUG("Lua Script Load Failed!");
+	return 0;
+	}*/
+	
 
 	bool bRet = CServerIniSet::GetSingleton().Init();
 	if (!bRet)
@@ -39,14 +60,25 @@ bool Init()
 	}
 
 	CSocketServer::GetSingleton().Init(g_ServerIni.m_ServerNet.m_Port);
+
+	if (!SCRIPTMANAGER.Load())
+	{
+		return false;
+	}
+	int iRet = SCRIPTMANAGER.CallScript(2, "mul", 1.325, 3.64);
+		LOG_DEBUG("iRet: %d", iRet);
+	//iRet = SCRIPTMANAGER.CallScript(2, "mul", 4, 3);
+	//LOG_DEBUG("iRet: %d", iRet);
+
+
 	bRet = CSocketServer::GetSingleton().Listen();
 	if (!bRet)
 	{
 		return false;
 	}
 	/*LOG_DEBUG("port: %d, recvbuflen: %d, sendbuflen: %d", g_ServerIni.m_ServerNet.m_Port,
-		g_ServerIni.m_ServerNet.m_ReceiveSocketBuffLen,
-		g_ServerIni.m_ServerNet.m_SendSocketBuffLen);*/
+	g_ServerIni.m_ServerNet.m_ReceiveSocketBuffLen,
+	g_ServerIni.m_ServerNet.m_SendSocketBuffLen);*/
 	/*TABLE_TEST* pTestTable = Tables.m_Test.Row(1);
 	if (pTestTable)
 	{

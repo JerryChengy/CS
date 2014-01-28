@@ -4,7 +4,7 @@
 
 void AssertShowEx(char* file, int line, char* func, char* expr, char* format, ...)
 {
-		va_list Args;
+	va_list Args;
 	va_start(Args, format);
 	char szBuf1[BUFF_LEN_512]="";
 	char szBuf2[BUFF_LEN_512]="";	

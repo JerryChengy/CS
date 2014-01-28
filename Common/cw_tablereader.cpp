@@ -18,13 +18,13 @@ bool CTableReader::Init(const char* pFileName)
 	}
 	strncpy(m_FileName, pFileName, sizeof(m_FileName)-1);
 	m_FileName[sizeof(m_FileName)-1] = '\0';
-	if (!__FormFileFullPath())
-	{
-		AssertEx(false, "TableReader Init Fail: %s", pFileName);
-		return false;
-	}
+// 	if (!__FormFileFullPath())
+// 	{
+// 		AssertEx(false, "TableReader Init Fail: %s", pFileName);
+// 		return false;
+// 	}
 	__CalcLineCount();	
-	m_File.open(m_FileFullPath, ios_base::in);
+	m_File.open(m_FileName, ios_base::in);
 	if (!m_File)
 	{
 		return false;
@@ -96,10 +96,10 @@ void CTableReader::__CalcLineCount()
 {
 		m_LineCount = 0;
 	fstream file;
-	file.open(m_FileFullPath, ios_base::in);
+	file.open(m_FileName, ios_base::in);
 	if (!file)
 	{
-		AssertEx(false, "Open file\"%s\" fail!!!", m_FileFullPath);
+		AssertEx(false, "Open file\"%s\" fail!!!", m_FileName);
 		file.close();
 		return ;
 	}

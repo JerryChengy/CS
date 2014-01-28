@@ -3,6 +3,16 @@
 #include "cw_commondefine.h"
 #include "cw_tablebase.h"
 
+
+struct TABLE_SCRIPT: TABLE_BASE 
+{
+	char* m_ScriptFileName;
+	void ReadTable()
+	{
+		In(m_ScriptFileName);		
+	}
+};
+
 struct TABLE_TEST: TABLE_BASE
 {	
 	char* m_Name;

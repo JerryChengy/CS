@@ -78,12 +78,12 @@ bool CIniReader::Init(const char* pFileName, const char* pKeyStr)
 		return false;
 	}
 	strncpy(m_FileName, pFileName, sizeof(m_FileName)-1);
-	if (!__FormFileFullPath())
-	{
-		AssertEx(false, "IniReader Init Fail:%s", pFileName);
-		return false;
-	}
-	m_File.open(m_FileFullPath);
+// 	if (!__FormFileFullPath())
+// 	{
+// 		AssertEx(false, "IniReader Init Fail:%s", pFileName);
+// 		return false;
+// 	}
+	m_File.open(m_FileName);
 	if (!m_File)
 	{
 		AssertEx(false, "Open file\"%s\" fail!!!", pFileName);

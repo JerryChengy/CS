@@ -14,7 +14,9 @@ private:
 
 public:
 	CTable<TABLE_TEST> m_Test;
+	CTable<TABLE_SCRIPT> m_Script;
 };
 
 #define Tables CTableSet::GetSingleton()
+
 #endif
